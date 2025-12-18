@@ -43,24 +43,56 @@ The project follows a clean separation between **frontend**, **backend**, and **
 AgriSenseMRV/
 │
 ├── backend/
-│   ├── app.py                 # Backend entry point
-│   ├── requirements.txt       # Python dependencies
-│   ├── routes/                # API route handlers
-│   ├── utils/                 # Helper functions
-│   └── models/                # ML models (NOT tracked in Git)
+│   ├── models/                      # ML models (NOT tracked in Git)
+│   ├── utils/                       # Backend utility functions
+│   │   ├── __pycache__/            # Python cache (ignored)
+│   │   ├── model_loader.py         # Model loading utilities
+│   │   ├── preprocessor.py         # Data preprocessing
+│   │   └── recommendations.py      # Health recommendations logic
+│   ├── venv/                        # Virtual environment (NOT tracked in Git)
+│   ├── app.py                       # Backend entry point (Flask/FastAPI)
+│   ├── config.py                    # Configuration management
+│   ├── requirements.txt             # Python dependencies
+│   └── script.py                    # Utility scripts
 │
 ├── frontend/
-│   ├── public/                # Static assets
-│   ├── src/                   # React/Next.js source code
-│   ├── package.json           # Node dependencies
-│   └── vite.config.js         # Build configuration
+│   ├── .vite/                       # Vite cache (ignored)
+│   ├── node_modules/                # Node dependencies (NOT tracked in Git)
+│   ├── public/                      # Static assets
+│   ├── src/
+│   │   ├── components/             # React components
+│   │   │   ├── CropDiseaseDetection.jsx
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── LandingPage.jsx
+│   │   │   ├── MapComponent.jsx
+│   │   │   └── SoilHealthAnalysis.jsx
+│   │   ├── utils/                  # Frontend utility functions
+│   │   │   ├── soilDataApi.js      # Soil API integration
+│   │   │   └── [other utilities]
+│   │   ├── App.jsx                 # Main app component
+│   │   ├── index.css               # Global styles
+│   │   └── main.jsx                # React entry point
+│   ├── .gitignore                  # Frontend-specific ignores
+│   ├── index.html                  # HTML entry point
+│   ├── package-lock.json           # Locked dependencies
+│   ├── package.json                # Node dependencies
+│   ├── postcss.config.js           # PostCSS configuration
+│   ├── README.md                   # Frontend documentation
+│   ├── tailwind.config.js          # Tailwind CSS config
+│   └── vite.config.js              # Vite build configuration
 │
-├── .gitignore                 # Git ignore rules
-├── README.md                  # Project documentation
-└── LICENSE                    # License file
+├── .gitattributes                  # Git attributes
+├── .gitignore                      # Git ignore rules
+├── README.md                       # Project documentation
+└── README.md                       # Root documentation
 ```
 
-> ⚠️ **Note:** `backend/venv/` and `backend/models/` are intentionally excluded from version control.
+> ⚠️ **Note:** The following are intentionally excluded from version control:
+> - `backend/venv/` - Python virtual environment
+> - `backend/models/` - ML model files (too large for Git)
+> - `frontend/node_modules/` - Node.js dependencies
+> - `__pycache__/` - Python bytecode cache
+> - `.vite/` - Vite build cache
 
 ---
 
