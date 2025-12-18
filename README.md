@@ -1,7 +1,9 @@
 # 🌾 AgriSenseMRV
 
-AgriSenseMRV is an intelligent agriculture monitoring and disease detection system that leverages machine learning to assist farmers and agricultural stakeholders.  
-The project is designed with a clean separation between frontend, backend, and machine learning components, following industry-level best practices for scalability and deployment.
+AgriSenseMRV is an intelligent agriculture monitoring and crop disease detection system that leverages machine learning, geospatial data, and soil intelligence APIs to assist farmers and agricultural stakeholders.  
+The system takes **plant leaf images and geographic location as input**, fetches **soil parameters automatically from external APIs**, and generates **actionable health insights** for crops.
+
+The project follows a clean separation between **frontend**, **backend**, and **machine learning** components, using industry-level best practices for scalability, maintainability, and cloud deployment.
 
 ---
 
