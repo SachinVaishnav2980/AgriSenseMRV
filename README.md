@@ -43,7 +43,7 @@ The project follows a clean separation between **frontend**, **backend**, and **
 AgriSenseMRV/
 │
 ├── backend/
-│   ├── models/                      # ML models (NOT tracked in Git)
+│   ├── models/                      
 │   ├── utils/                       # Backend utility functions
 │   │   ├── __pycache__/            # Python cache (ignored)
 │   │   ├── model_loader.py         # Model loading utilities
@@ -157,14 +157,6 @@ The frontend will be available at `http://localhost:3000` (or configured port).
 
 ML models are **not included** in this repository due to GitHub file size restrictions.
 
-### Options for Model Management:
-- **Git LFS** (Large File Storage) for version control
-- **Cloud Storage** (AWS S3, Google Cloud Storage, Azure Blob Storage)
-- **Model Registry** (MLflow, DVC)
-- **Direct Download** from hosting service
-
-Please contact the repository maintainer for access to trained models.
-
 ---
 
 ## 🧩 Common Git Commands
@@ -214,20 +206,6 @@ Upload plant leaf image and location for disease detection.
   "recommendations": [...]
 }
 ```
-
----
-
-## 🚀 Deployment
-
-### Backend Deployment
-- Deploy on **Railway**, **Render**, or **AWS EC2**
-- Set environment variables for API keys
-- Configure CORS for frontend access
-
-### Frontend Deployment
-- Deploy on **Vercel** or **Netlify**
-- Update API endpoint URLs
-- Configure environment variables
 
 ---
 
