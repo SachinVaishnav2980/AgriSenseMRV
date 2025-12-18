@@ -1,13 +1,46 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Leaf, Droplets, Activity, Home, Sparkles } from 'lucide-react'
 import CropDiseaseDetection from './components/CropDiseaseDetection'
 import SoilHealthAnalysis from './components/SoilHealthAnalysis'
 import IntegratedAnalysis from './components/IntegratedAnalysis'
 import Dashboard from './components/Dashboard'
+import LandingPage from './components/LandingPage'
 
 function App() {
-  const [activeTab, setActiveTab] = useState('dashboard')
+  const [activeTab, setActiveTab] = useState(() => {
+    const hash = window.location.hash.slice(1)
+    if (hash) return hash
+    const stored = localStorage.getItem('activeTab')
+    return stored || 'landing'
+  })
+
+  useEffect(() => {
+    if (activeTab !== 'landing') {
+      localStorage.setItem('activeTab', activeTab)
+    }
+  }, [activeTab])
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.slice(1)
+      if (hash) {
+        setActiveTab(hash)
+      } else {
+        // Only restore from localStorage if page has been navigated before
+        const stored = localStorage.getItem('activeTab')
+        if (stored) {
+          setActiveTab(stored)
+        }
+        // If no hash and no stored value, stay on current activeTab (landing)
+      }
+    }
+
+    window.addEventListener('hashchange', handleHashChange)
+    // Don't call handleHashChange on mount - use initial state instead
+
+    return () => window.removeEventListener('hashchange', handleHashChange)
+  }, [])
 
   const tabs = [
     { id: 'dashboard', label: 'Dashboard', icon: Home },
@@ -16,9 +49,12 @@ function App() {
     { id: 'integrated', label: 'Integrated', icon: Activity },
   ]
 
+  const showNav = activeTab !== 'landing'
+
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen w-full">
       {/* Header */}
+      {showNav && (
       <motion.header 
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -45,8 +81,10 @@ function App() {
           </div>
         </div>
       </motion.header>
+      )}
 
       {/* Navigation Tabs */}
+      {showNav && (
       <div className="bg-white border-b border-gray-200 sticky top-16 z-40">
         <div className="container mx-auto px-4">
           <div className="flex space-x-1 overflow-x-auto">
@@ -55,7 +93,7 @@ function App() {
               return (
                 <motion.button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
+                  onClick={() => window.location.hash = tab.id}
                   className={`flex items-center space-x-2 px-6 py-4 font-medium transition-all duration-200 relative ${
                     activeTab === tab.id
                       ? 'text-green-600'
@@ -80,31 +118,49 @@ function App() {
           </div>
         </div>
       </div>
+      )}
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="w-full">
         <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            {activeTab === 'dashboard' && <Dashboard />}
-            {activeTab === 'crop' && <CropDiseaseDetection />}
-            {activeTab === 'soil' && <SoilHealthAnalysis />}
-            {activeTab === 'integrated' && <IntegratedAnalysis />}
-          </motion.div>
+          {activeTab === 'landing' && (
+            <motion.div
+              key="landing"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className='w-full'
+            >
+              <LandingPage />
+            </motion.div>
+          )}
+          {activeTab !== 'landing' && (
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className='container mx-auto px-4 py-8'
+            >
+              {activeTab === 'dashboard' && <Dashboard />}
+              {activeTab === 'crop' && <CropDiseaseDetection />}
+              {activeTab === 'soil' && <SoilHealthAnalysis />}
+              {activeTab === 'integrated' && <IntegratedAnalysis />}
+            </motion.div>
+          )}
         </AnimatePresence>
       </main>
 
       {/* Footer */}
+      {showNav && (
       <footer className="bg-gray-800 text-white py-6 mt-12">
         <div className="container mx-auto px-4 text-center">
           <p className="text-sm">© 2024 AgriSense MRV - Powered by AI & Machine Learning</p>
         </div>
       </footer>
+      )}
     </div>
   )
 }

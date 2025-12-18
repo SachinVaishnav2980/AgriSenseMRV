@@ -20,7 +20,6 @@ function LocationMarker({ onLocationSelect, selectedLocation, loading }) {
     click(e) {
       const { lat, lng } = e.latlng
       setPosition([lat, lng])
-      map.setView([lat, lng], 13)
       onLocationSelect({ lat, lng })
     },
   })
@@ -32,24 +31,20 @@ function LocationMarker({ onLocationSelect, selectedLocation, loading }) {
         (pos) => {
           const { latitude, longitude } = pos.coords
           setPosition([latitude, longitude])
-          map.setView([latitude, longitude], 10)
         },
         () => {
           // Default to a central location if geolocation fails
           setPosition([28.7041, 77.1025]) // Default to Delhi, India
-          map.setView([28.7041, 77.1025], 5)
         }
       )
     } else {
       setPosition([28.7041, 77.1025])
-      map.setView([28.7041, 77.1025], 5)
     }
   }, [map])
 
   useEffect(() => {
     if (selectedLocation) {
       setPosition([selectedLocation.lat, selectedLocation.lng])
-      map.setView([selectedLocation.lat, selectedLocation.lng], 13)
     }
   }, [selectedLocation, map])
 
@@ -81,6 +76,11 @@ export default function MapComponent({ onLocationSelect, selectedLocation, loadi
         zoom={5}
         style={{ height: '100%', width: '100%' }}
         scrollWheelZoom={true}
+        dragging={true}
+        touchZoom={true}
+        doubleClickZoom={true}
+        maxBounds={[[10, 50], [40, 100]]}
+        maxBoundsViscosity={1.0}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

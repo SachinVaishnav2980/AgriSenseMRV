@@ -83,21 +83,21 @@ export default function Dashboard() {
         {features.map((feature, index) => {
           const Icon = feature.icon
           return (
-            <motion.a
+            <motion.button
               key={feature.title}
-              href={feature.link}
+              onClick={() => window.location.hash = feature.link.slice(1)}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 + index * 0.1 }}
               whileHover={{ y: -5 }}
-              className="card group cursor-pointer"
+              className="card group cursor-pointer text-left"
             >
               <div className={`w-16 h-16 bg-gradient-to-r ${feature.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200`}>
                 <Icon className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-bold text-gray-800 mb-2">{feature.title}</h3>
               <p className="text-gray-600">{feature.description}</p>
-            </motion.a>
+            </motion.button>
           )
         })}
       </div>
@@ -112,10 +112,16 @@ export default function Dashboard() {
         <h3 className="text-2xl font-bold mb-4">Get Started</h3>
         <p className="mb-6">Choose a feature above to begin analyzing your agricultural data</p>
         <div className="flex flex-wrap gap-4">
-          <button className="bg-white text-green-600 px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+          <button 
+            onClick={() => window.location.hash = 'crop'}
+            className="bg-white text-green-600 px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+          >
             Upload Image
           </button>
-          <button className="bg-green-700 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-800 transition-colors">
+          <button 
+            onClick={() => window.location.hash = 'soil'}
+            className="bg-green-700 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-800 transition-colors"
+          >
             Analyze Soil
           </button>
         </div>
